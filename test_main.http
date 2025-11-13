@@ -35,7 +35,7 @@ Content-Type: application/json
 
 ###
 #look all users
-GET http://localhost:8000/users/
+GET http://localhost:8050/users/
 Content-Type: application/json
 
 ###

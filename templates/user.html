@@ -1,0 +1,17 @@
+{% include 'header.html' %}
+
+
+{% for user in users %}
+<h2>Usuario</h2>
+<h3>{{users}}</h3>
+<h3>id: {{user.id}}</h3>
+<h2>Nombre: {{user.name}}</h2>
+<h3>{{2025-(users.year)}}</h3>
+{% if users.status %}
+<h3>{{users.name}} Sigue vivo</h3>
+{% else %}
+<h3>{{users.name}} Ya se fue</h3>
+{% endif %}
+{% endfor %}
+
+{% include 'footer.html' %}
