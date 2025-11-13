@@ -1,5 +1,5 @@
 from fastapi.templating import Jinja2Templates
-from fastapi import FastAPI, UploadFile, File, Form, Request
+from fastapi import FastAPI, UploadFile, File, Form, Request, HTTPException
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse
 import bucket
@@ -59,7 +59,13 @@ async def say_hello(request:Request, name: str):
         {"request": request, "name": name}
     )
 
-
+@app.exception_handler(HTTPException)
+async def http_exception_handler(request: Request, exc: HTTPException):
+    return templates.TemplateResponse(
+        "error.html",
+        {"request": request, "status_code": exc.status_code, "detail": exc.detail},
+        status_code=exc.status_code,
+    )
 
 
 

@@ -1,20 +1,35 @@
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from db import SessionDep
-from fastapi import APIRouter, HTTPException, Request
+from fastapi import APIRouter, HTTPException, Request, Form, UploadFile, File
 from models import User, UserCreate
 from sqlmodel import select
+from typing import Optional
+from supabase_utils.supabase import upload_file_bucket
 
 router = APIRouter()
 templates = Jinja2Templates(directory="templates")
 
 
 @router.post("/", response_model=User, status_code=201)
-async def create_user(new_user: UserCreate, session: SessionDep):
-    user = User.model_validate(new_user)
-    session.add(user)
-    await session.commit()
-    await session.refresh(user)
+async def create_user(request: Request, session: SessionDep, name: str = Form(...), year: int = Form(...),
+                      status: bool = Form(True), img: Optional[UploadFile] = File(None)):
+
+    img_url = None
+    if img:
+        try:
+            img_url = await upload_file_bucket(img)
+        except Exception as e:
+            raise HTTPException(status_code=404, detail=str(e))
+
+    try:
+        new_user = User(name=name, year=year, status=status, img=img_url)
+        user = User.model_validate(new_user)
+        session.add(user)
+        await session.commit()
+        await session.refresh(user)
+    except Exception as e:
+        raise HTTPException(status_code=404, detail=str(e))
     return user
 
 

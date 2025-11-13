@@ -1,12 +1,14 @@
 import datetime
 from sqlmodel import SQLModel, Field, Relationship
 from utils import Kind
+from typing import Optional
 
 
 class UserBase(SQLModel):
     name: str | None = Field(description="User name")
     year: int | None = Field(description="User year")
     status: bool | None = Field(description="User status", default=True)
+    img:Optional[str] = Field(description="User image", default=None)
 
 class PetBase(SQLModel):
     name: str  | None = Field(description="Pet name")
@@ -45,7 +47,7 @@ class Vet(VetBase, table=True):
     pets: list["Pet"] = Relationship(back_populates="vets", link_model=Appointment)
 
 class UserCreate(UserBase):
-    pass
+    img:Optional[str] = None
 
 
 class PetCreate(PetBase):
