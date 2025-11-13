@@ -1,0 +1,20 @@
+{% include 'header.html' %}
+
+
+{% for person in user %}
+
+<h1>Usuario de Pet API-MARS</h1>
+<img src="{{person.img}}">
+
+<h3>Nombre: {{person.name}}</h3>
+
+{% if person.status %}
+<h4>Alive</h4>
+{% else %}
+<h4>Not Alive</h4>
+{% endif %}
+
+
+{% endfor %}
+
+{% include 'footer.html' %}

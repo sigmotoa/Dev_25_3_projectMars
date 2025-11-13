@@ -2,7 +2,7 @@ from contextlib import asynccontextmanager
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
-from fastapi import FastAPI, UploadFile, File, Form, Request
+from fastapi import FastAPI, UploadFile, File, Form, Request, HTTPException
 from fastapi.staticfiles import StaticFiles
 import appoinment
 import pet
@@ -55,4 +55,12 @@ async def say_hello(request: Request, name: str):
         request=request,
         name="hello.html",
         context={"texto": name.upper()}
+    )
+
+@app.exception_handler(HTTPException)
+async def http_exception_handler(request: Request, exc: HTTPException):
+    return templates.TemplateResponse(
+        "error.html",
+        {"request": request, "status_code": exc.status_code, "detail": exc.detail},
+        status_code=exc.status_code,
     )
