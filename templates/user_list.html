@@ -1,0 +1,9 @@
+{% include 'header.html' %}
+
+<h1>Usuarios de Pet</h1>
+
+{% for user in users %}
+    {% include 'user_card.html' %}
+{% endfor %}
+
+{% include 'footer.html' %}

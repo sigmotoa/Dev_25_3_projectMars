@@ -56,5 +56,5 @@ async def get_one_user(request: Request, user_id: int, session: SessionDep):
 async def get_all_users(request: Request, session: SessionDep):
     result = await session.execute(select(User))
     users = result.scalars().all()
-    return templates.TemplateResponse("user.html",
-                                      {"request": request, "user": users})
+    return templates.TemplateResponse("user_list.html",
+                                      {"request": request, "users": users})
