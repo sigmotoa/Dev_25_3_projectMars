@@ -30,7 +30,7 @@ async def create_user(request: Request,
             raise HTTPException(status_code=400, detail=str(e))
 
     try:
-        new_user = UserCreate(name=name, year=year, status=status, img_url=img_url)
+        new_user = UserCreate(name=name, year=year, status=status, img=img_url)
 
         user = User.model_validate(new_user)
         session.add(user)
@@ -49,6 +49,8 @@ async def get_one_user(request: Request, user_id: int, session: SessionDep):
         raise HTTPException(status_code=404, detail="User not found")
     return templates.TemplateResponse("user.html", {"request": request, "user": user_db})
 
+##Adicion de un CARD para user y se inyecta en cada uno segun se requiere
+## Separar en user_detail y user_list
 
 @router.get("/", response_class=HTMLResponse)
 async def get_all_users(request: Request, session: SessionDep):
