@@ -47,7 +47,7 @@ async def get_one_user(request: Request, user_id: int, session: SessionDep):
     user_db = await session.get(User, user_id)
     if not user_db:
         raise HTTPException(status_code=404, detail="User not found")
-    return templates.TemplateResponse("user.html", {"request": request, "user": user_db})
+    return templates.TemplateResponse("user_detail.html", {"request": request, "user": user_db})
 
 ##Adicion de un CARD para user y se inyecta en cada uno segun se requiere
 ## Separar en user_detail y user_list
