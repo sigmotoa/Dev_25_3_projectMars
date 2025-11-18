@@ -1,4 +1,4 @@
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 from db import SessionDep
 from fastapi import APIRouter, HTTPException, Request, Form, File, UploadFile
 from models import User, UserCreate
@@ -12,6 +12,10 @@ router = APIRouter()
 
 templates = Jinja2Templates(directory="templates")
 
+
+@router.get("/new", response_class=HTMLResponse)
+async def show_create(request: Request):
+    return templates.TemplateResponse("new_user.html", {"request": request})
 
 @router.post("/", response_model=User, status_code=201)
 async def create_user(request: Request,
@@ -39,7 +43,7 @@ async def create_user(request: Request,
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-    return user
+    return RedirectResponse(url=f"/users/{user.id}", status_code=302)
 
 
 @router.get("/{user_id}", response_class=HTMLResponse)
