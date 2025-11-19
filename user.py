@@ -51,6 +51,7 @@ async def get_one_user(request: Request, user_id: int, session: SessionDep):
     user_db = await session.get(User, user_id)
     if not user_db:
         raise HTTPException(status_code=404, detail="User not found")
+    await session.refresh(user_db, ["pets"])
     return templates.TemplateResponse("user_detail.html", {"request": request, "user": user_db})
 
 ##Adicion de un CARD para user y se inyecta en cada uno segun se requiere
@@ -62,3 +63,15 @@ async def get_all_users(request: Request, session: SessionDep):
     users = result.scalars().all()
     return templates.TemplateResponse("user_list.html",
                                       {"request": request, "users": users})
+
+
+@router.get("/{user_id}/pets", response_class=HTMLResponse)
+async def get_user_pets(request: Request, user_id: int, session: SessionDep):
+    user = await session.get(User, user_id)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    await session.refresh(user, ["pets"])
+    #pets = user.pets
+
+    return templates.TemplateResponse("user_pets.html", {"request": request, "user":user,"pets": user.pets})

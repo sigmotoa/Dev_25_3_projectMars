@@ -5,5 +5,10 @@
 {% set show_link = False %}
 {% include 'user_card.html' with context %}
 
+{% if user.pets %}
+<a href="/users/{{ user.id }}/pets">look pets({{ user.pets|length }})</a>
+{% else %}
+<a href="/pets/new?user_id={{ user.id }}">Agregar Primera Mascota</a>
+{% endif %}
 
 {% include 'footer.html' %}
