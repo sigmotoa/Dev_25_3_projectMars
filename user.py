@@ -1,4 +1,4 @@
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from db import SessionDep
 from fastapi import APIRouter, HTTPException, Request, Form, UploadFile, File
@@ -9,6 +9,11 @@ from supabase_utils.supabase import upload_file_bucket
 
 router = APIRouter()
 templates = Jinja2Templates(directory="templates")
+
+
+@router.get("/new",response_class=HTMLResponse)
+async def new_page(request: Request):
+    return templates.TemplateResponse("user_create.html", {"request": request})
 
 
 @router.post("/", response_model=User, status_code=201)
@@ -30,7 +35,7 @@ async def create_user(request: Request, session: SessionDep, name: str = Form(..
         await session.refresh(user)
     except Exception as e:
         raise HTTPException(status_code=404, detail=str(e))
-    return user
+    return RedirectResponse(f"/users/{user.id}", status_code=303)
 
 
 @router.get("/{user_id}", response_class=HTMLResponse)
@@ -38,9 +43,9 @@ async def get_one_user(request: Request, user_id: int, session: SessionDep):
     user_db = await session.get(User, user_id)
     if not user_db:
         raise HTTPException(status_code=404, detail="User not found")
-    return templates.TemplateResponse("user.html",
+    return templates.TemplateResponse("user_detail.html",
                                       {"request": request,
-                                       "users": user_db}
+                                       "user": user_db}
                                       )
 
 
@@ -51,6 +56,6 @@ async def get_all_users(request: Request, session: SessionDep):
     result = await session.execute(select(User))
 
     users = result.scalars().all()
-    return templates.TemplateResponse("user.html",
+    return templates.TemplateResponse("user_list.html",
                                       {"request": request,
                                        "users": users})

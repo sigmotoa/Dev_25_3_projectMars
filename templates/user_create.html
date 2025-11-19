@@ -1,0 +1,19 @@
+{% include 'header.html' %}
+{# <a href="/users/">Back to List</a> #}
+
+<h1>Create new User</h1>
+<form method="post" action="/users/" enctype="multipart/form-data">
+    <h3>Name</h3>
+    <input type="text" name="name" required>
+    <h3>Year</h3>
+    <input type="number" name="year" required min="1910" max="2024">
+    <h3>Status</h3>
+    <input type="radio" name="status" value="true" checked>Alive
+    <input type="radio" name="status" value="false">Not Alive
+
+    <h3>Image</h3>
+    <input type="file" name="img" accept="image/*">
+
+    <input type="submit" value="Create">
+</form>
+{% include 'footer.html' %}
