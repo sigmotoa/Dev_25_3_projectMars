@@ -1,0 +1,7 @@
+{% include 'header.html' %}
+<h1>Users of Pets</h1>
+<a href="/users/new">Create User</a>
+{% for user in users %}
+{% include 'user_card.html' %}
+{% endfor %}
+{% include 'footer.html' %}

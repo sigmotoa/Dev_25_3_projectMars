@@ -1,0 +1,25 @@
+<fieldset>
+
+{% if show_link|default(True) %}
+<a href="/users/{{ user.id }}">
+{% endif %}
+
+
+{% if user.img %}
+<img src="{{ user.img }}" alt="{{ user.name }}" width="150" height="150">
+{% endif %}
+
+<h3>{{ user.name }}</h3>
+<h4>{{ user.year }}</h4>
+<h5>{{ 2025-user.year }}</h5>
+
+{% if user.status %}
+<h4>Alive</h4>
+{% else %}
+<h4>Not Alive</h4>
+{% endif %}
+    {% if show_link|default(True) %}
+
+</a>
+{% endif %}
+</fieldset>
