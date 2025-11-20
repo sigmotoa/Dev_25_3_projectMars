@@ -75,3 +75,12 @@ async def get_user_pets(request: Request, user_id: int, session: SessionDep):
     #pets = user.pets
 
     return templates.TemplateResponse("user_pets.html", {"request": request, "user":user,"pets": user.pets})
+
+
+
+
+
+
+
+
+
