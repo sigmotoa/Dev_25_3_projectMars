@@ -1,16 +1,18 @@
 {% include 'header.html' %}
+<div class="card" style="width: 18rem;">
 
 <a href="/users/{{ user.id }}">Back {{ user.name }}</a>
-
-<h1>Pets of {{ user.name }}</h1>
+<div class="card-body">
+<h1 class="card-title">Pets of {{ user.name }}</h1>
 
 
 {% if pets %}
     {% for pet in pets %}
         <a href="/pets/{{ pet.id }}">
-            <h3>{{ pet.name }}</h3>
-            <h4>{{ pet.kind.value if pet.kind else 'Sin tipo' }}</h4>
-            <h5>{{ pet.year }}</h5>
+
+            <h3 class="card-text">{{ pet.name }}</h3>
+            <h4 class="card-text">{{ pet.kind.value if pet.kind else 'Sin tipo' }}</h4>
+            <h5 class="card-text">{{ pet.year }}</h5>
             {% if pet.alive %}
             <h6>Vivo</h6>
             {% else %}
@@ -22,6 +24,14 @@
     <h3>{{ user.name }} no tiene mascotas registradas</h3>
 {% endif %}
 
-<a href="/pets/new?user_id={{ user.id }}">Agregar Mascota</a>
-
+<a href="/pets/new?user_id={{ user.id }}" class="btn btn-primary">Agregar Mascota</a>
+     </div>
+</div>
 {% include 'footer.html' %}
+
+
+
+
+
+
+
