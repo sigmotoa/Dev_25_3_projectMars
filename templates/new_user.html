@@ -10,14 +10,27 @@
     <h3>Año</h3>
     <input type="number" name="year" min="1900" max="2024">
 
-    <h3>Estado</h3>
-    <input type="radio" name="status" value="true" checked> Alive
-    <input type="radio" name="status" value="false">Not Alive
 
-    <h3>Imagen</h3>
-    <input type="file" name="img" accept="image/*">
+     <span class="nes-text is-success">Estado</span>
 
-    <input type="submit" value="Registrar usuario">
+    <label>
+  <input type="radio" class="nes-radio" name="status" checked />
+  <span>Yes</span>
+</label>
+
+<label>
+  <input type="radio" class="nes-radio" name="status" />
+  <span>No</span>
+</label>
+
+    <span class="nes-text is-success">Imagen</span>
+
+    <label class="nes-btn">
+  <span>Select your file</span>
+  <input type="file">
+</label>
+
+    <input type="submit" class="nes-btn is-success" value="Registrar usuario">
 
 
 </form>
